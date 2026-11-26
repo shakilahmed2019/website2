@@ -1,0 +1,59 @@
+.enroll-neon-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #ffffff;
+  background: linear-gradient(45deg, #0ce39a, #69007f, #fc0987);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease;
+}
+
+.enroll-neon-btn:active {
+  transform: scale(0.95);
+}
+
+.enroll-neon-btn span {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.enroll-neon-btn::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #18181b;
+  border-radius: 10px;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.enroll-neon-btn:hover::before {
+  opacity: 0.65;
+}
+
+.enroll-neon-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  background: linear-gradient(45deg, #0ce39a, #69007f, #fc0987);
+  border-radius: 12px;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+  filter: blur(16px);
+  z-index: -1;
+}
+
+.enroll-neon-btn:hover::after {
+  opacity: 0.95;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Tanvir's Science Square",
+  "description": "Official HSC & Admission Science Learning Management System by Tanvir's Science Square — Chemistry, Physics, Higher Math, Biology One-Shot classes and structured batches.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,216 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated LMS user profile with server-enforced role.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 160 },
+        "role": { "type": "string", "enum": ["student", "admin"] },
+        "title": { "type": "string", "maxLength": 120 },
+        "initials": { "type": "string", "minLength": 1, "maxLength": 6 },
+        "enrolledCourses": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "email", "role", "title", "initials", "enrolledCourses", "createdAt", "updatedAt"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Trusted admin lookup record.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "maxLength": 160 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "Course": {
+      "title": "Course",
+      "description": "HSC & Admission Science course with modules and pricing.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "subtitle": { "type": "string", "minLength": 2, "maxLength": 600 },
+        "category": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "level": { "type": "string", "enum": ["Beginner", "Intermediate", "Advanced"] },
+        "instructor": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "instructorRole": { "type": "string", "maxLength": 160 },
+        "priceBdt": { "type": "number" },
+        "originalPriceBdt": { "type": "number" },
+        "durationHours": { "type": "number" },
+        "rating": { "type": "number" },
+        "enrolledCount": { "type": "number" },
+        "thumbnail": { "type": "string", "maxLength": 1000 },
+        "featured": { "type": "boolean" },
+        "published": { "type": "boolean" },
+        "updatedAt": { "type": "string", "maxLength": 40 },
+        "modules": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id", "title", "subtitle", "category", "level", "instructor",
+        "instructorRole", "priceBdt", "durationHours", "rating",
+        "enrolledCount", "thumbnail", "featured", "published", "updatedAt",
+        "modules", "createdAt"
+      ]
+    },
+    "Enrollment": {
+      "title": "Enrollment",
+      "description": "Student enrollment and lesson completion state per course.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "courseId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "completedLessonIds": { "type": "array" },
+        "lastLessonId": { "type": "string", "maxLength": 128 },
+        "enrolledAt": { "type": "string", "maxLength": 40 },
+        "completedAt": { "type": "string", "maxLength": 40 },
+        "certificateId": { "type": "string", "maxLength": 80 },
+        "paymentId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "courseId", "completedLessonIds", "enrolledAt", "createdAt", "updatedAt"]
+    },
+    "PaymentSubmission": {
+      "title": "PaymentSubmission",
+      "description": "Bangladeshi bKash/Nagad/Rocket TrxID verification record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "courseId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "courseTitle": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "studentName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "studentPhone": { "type": "string", "pattern": "^01[3-9][0-9]{8}$", "maxLength": 15 },
+        "method": { "type": "string", "enum": ["bkash", "nagad", "rocket"] },
+        "transactionId": { "type": "string", "pattern": "^[A-Z0-9]{6,18}$", "maxLength": 18 },
+        "promoCode": { "type": "string", "maxLength": 24 },
+        "discountBdt": { "type": "number" },
+        "amountPaidBdt": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "submittedAt": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id", "userId", "courseId", "courseTitle", "studentName", "studentPhone",
+        "method", "transactionId", "discountBdt", "amountPaidBdt", "status",
+        "submittedAt", "createdAt", "updatedAt"
+      ]
+    },
+    "McqQuestion": {
+      "title": "McqQuestion",
+      "description": "Chapter-wise HSC & Admission MCQ exam question.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subject": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "chapter": { "type": "string", "minLength": 1, "maxLength": 140 },
+        "question": { "type": "string", "minLength": 3, "maxLength": 500 },
+        "options": { "type": "array" },
+        "correctIndex": { "type": "number" },
+        "explanation": { "type": "string", "minLength": 2, "maxLength": 600 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "subject", "chapter", "question", "options", "correctIndex", "explanation", "createdAt"]
+    },
+    "ExamResult": {
+      "title": "ExamResult",
+      "description": "Student MCQ Exam Hall submission and leaderboard entry (PII-free).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "studentName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "studentInitials": { "type": "string", "minLength": 1, "maxLength": 6 },
+        "courseId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "courseTitle": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "subject": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "score": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "correctCount": { "type": "number" },
+        "wrongCount": { "type": "number" },
+        "skippedCount": { "type": "number" },
+        "accuracy": { "type": "number" },
+        "negativeMarking": { "type": "boolean" },
+        "submittedAt": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id", "userId", "studentName", "studentInitials", "courseId", "courseTitle",
+        "subject", "score", "totalQuestions", "correctCount", "wrongCount",
+        "skippedCount", "accuracy", "negativeMarking", "submittedAt", "createdAt"
+      ]
+    },
+    "NoticeItem": {
+      "title": "NoticeItem",
+      "description": "Live announcement banner item.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "message": { "type": "string", "minLength": 2, "maxLength": 500 },
+        "priority": { "type": "string", "enum": ["info", "live", "urgent"] },
+        "active": { "type": "boolean" },
+        "linkLabel": { "type": "string", "maxLength": 60 },
+        "targetCourseId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "maxLength": 40 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "message", "priority", "active", "createdAt", "updatedAt"]
+    },
+    "BrandConfig": {
+      "title": "BrandConfig",
+      "description": "Channel logo URL configuration.",
+      "type": "object",
+      "properties": {
+        "logoUrl": { "type": "string", "maxLength": 500000 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["logoUrl", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profiles with role and enrolledCourses."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Trusted admin role lookup registry."
+    },
+    "/courses/{courseId}": {
+      "schema": { "$ref": "#/entities/Course" },
+      "description": "Published and draft science courses."
+    },
+    "/enrollments/{enrollmentId}": {
+      "schema": { "$ref": "#/entities/Enrollment" },
+      "description": "Student lesson progress per course keyed as {userId}_{courseId}."
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/PaymentSubmission" },
+      "description": "bKash/Nagad/Rocket payment submissions awaiting or granted approval."
+    },
+    "/exams/{examId}": {
+      "schema": { "$ref": "#/entities/McqQuestion" },
+      "description": "Science MCQ exam question bank."
+    },
+    "/examResults/{resultId}": {
+      "schema": { "$ref": "#/entities/ExamResult" },
+      "description": "Exam Hall score submissions and real-time subject leaderboard."
+    },
+    "/notices/{noticeId}": {
+      "schema": { "$ref": "#/entities/NoticeItem" },
+      "description": "Real-time announcements displayed on NoticeBoard."
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/BrandConfig" },
+      "description": "Platform brand settings (logoUrl)."
+    }
+  }
+}
